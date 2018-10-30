@@ -47,4 +47,73 @@ const double * f1(const double ar[],int n);
 const double * f1(const double [],int);
 const double * f1(const double *,int);
 ```
+# 002.数组名和指针的区别(7.3节)
+对于函数声明和定义，`int arr[]`和`int * arr`是等价的。
+```cpp
+int func1(int arr[],int n);
+int func2(int *arr,int n);
+```
+数组名和指针的区别：
+
+- sizeof作用于数组名，得到整个数组的大小（字节为单位）
+- 地址运算符&作用于数组名，将返回整个数组的地址
+
+`arr[i]`与`*(arr + i)`总是相同
+# 003.使用cin输入数据并处理错误(7.3节)
+```cpp
+//示例输入一个double型数据，并判断输入是否合法
+double temp;
+cout << "Input:";
+cin >> temp;
+if(!cin){	//bad input
+	cin.clear();
+	while(cin.get() != '\n')
+		continue;
+}
+cout << "Input Error!\n";
+```
+或者，一直要求输入，直到输入正确
+```cpp
+double temp;
+cout << "Input:";
+while(!(cin >> temp)){
+	cin.clear();
+	while(cin.get() != '\n')
+		continue;
+	cout << "Input:";
+}
+cout << "Input = " << temp << endl;
+```
+# 004.指向const值的指针和const指针(7.3节)
+```cpp
+int age = 20;
+const int * p1 = &age;
+int * const p2 = &age;
+const int * const p3 = &age;
+```
+`p1`为，指向const int类型的指针，因此，不能通过`*p1`来修改`age`
+`p2`为，指向int类型的const指针，因此，不能修改`p2`指向其他地址
+`p3`为，指向const int类型的const指针，因此，`*p3`和`p3`均不能修改
+# 005.二维数组与函数(7.4节)
+二维数组，即预期函数调用如下
+```cpp
+int data[3][2] = {{1,2},{3,4},{5,6}};
+int total = sum(data,3);
+```
+则传入参数为二维数组的函数声明应如下
+```cpp
+int sum(int (*arr)[2],int n);
+//或者
+int sum(int arr[][2],int n);
+```
+如何看待这些符号呢？按照结合顺序即可。
+`int data[3][2]`，data先与[3]结合，再与int [2]结合，因此，data是一个有3个元素的数组，数组中的每个元素为“有2个整形元素的数组”。
+`int (*arr)[2]`，arr先与*结合，再与int [2]结合，因此，arr是一个指针，指向“有2个整形元素的数组”。
+`int arr[][2]`，与`int (*arr)[2]`相同，在函数声明中，`arr[]`与`*arr`是相同的，都指示arr是一个数组
+
+另外，
+`arr[r][c]`与`*(*(arr + r) + c)`相同
+因为，`arr[r]`==`*(arr + r)`
+
+
 
