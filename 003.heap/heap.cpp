@@ -2,10 +2,13 @@
 //任务1：给定一个数组vector，将其变为堆，相当于实现STL的make_heap
 //任务2：实现堆排序，交换堆顶和最后一个元素，缩减堆，循环直到堆大小为1
 //任务3：优先级队列，插入push，删除pop、top
+//任务4：STL中的堆
+//任务5：STL中的优先级队列
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <queue>
+#include <functional>
 
 using namespace std;
 
@@ -72,6 +75,40 @@ void my_pq_push(vector<int> &arr, int num) {
 	}
 }
 
+//STL中的堆（默认大顶堆）
+//make_heap(), pop_heap(), push_heap(), sort_heap()
+//传入参数均是begin和end迭代器，以及一个比较函数
+//其并不是专门实现了一种容器，而是在algorithm头文件中，底层可以基于vector
+void STLHeapTest() {
+	cout << "STL堆测试\n";
+	vector<int> arr({ 1,4,8,2,7,3,9 });
+	//建堆
+	make_heap(arr.begin(), arr.end(), greater<int>());//还可以传比较函数
+
+	for (int x : arr)cout << x << " ";
+	cout << endl;
+
+	//堆的插入，假定除最后一个元素外，是合法的堆
+	arr.push_back(5);
+	push_heap(arr.begin(), arr.end(), greater<int>());//还可以传比较函数
+
+	for (int x : arr)cout << x << " ";
+	cout << endl;
+
+	//堆顶元素弹出，弹出的堆顶放在了最后
+	pop_heap(arr.begin(), arr.end(), greater<int>());//还可以传比较函数
+	arr.pop_back();
+
+	for (int x : arr)cout << x << " ";
+	cout << endl;
+
+	//堆排序
+	sort_heap(arr.begin(), arr.end(), greater<int>());
+
+	for (int x : arr)cout << x << " ";
+	cout << endl;
+}
+
 int main() {
 	vector<int> arr({ 1,4,8,2,7,3,9 });
 	//make_heap(arr.begin(), arr.end());
@@ -100,9 +137,9 @@ int main() {
 	for (int x : pq_from_insert)cout << x << " ";
 	cout << endl;
 
+	STLHeapTest();
+
 	cin.get();
 	return 0;
 }
-
-
 
